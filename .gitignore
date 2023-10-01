@@ -1,6 +1,9 @@
 ### MacOS
 **/*.DS_Store
 
+### Leave out personal properties setting
+src/main/resources/application.properties
+
 ### java
 # Compiled class file
 **/*.class
