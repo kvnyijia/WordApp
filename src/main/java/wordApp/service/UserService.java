@@ -1,15 +1,10 @@
-package wordApp.dao;
+package wordApp.service;
 
 import wordApp.entity.User;
 
-public interface UserDAO {
+public interface UserService {
   void save(User theUser);
-
   User find(String theUsername);
-
-  // List<User> findAll();
-
   User update(User theUser);
-
   void delete(String theUsername);
 }
