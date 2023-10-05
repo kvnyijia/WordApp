@@ -1,4 +1,4 @@
-package wordApp.rest;
+package wordApp.rest.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,15 @@ public class UserExpHandler {
     err.setMsg(exc.getMessage());
     err.setTimeStamp(System.currentTimeMillis());
     return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<UserErrorRes> expHandler(UserUniqueViolationExp exc) {
+    UserErrorRes err = new UserErrorRes();
+    err.setStatus(HttpStatus.FORBIDDEN.value());
+    err.setMsg(exc.getMessage());
+    err.setTimeStamp(System.currentTimeMillis());
+    return new ResponseEntity<>(err, HttpStatus.FORBIDDEN);
   }
 
   @ExceptionHandler

@@ -1,9 +1,9 @@
-package wordApp.rest;
+package wordApp.rest.user;
 
 public class UserNotFoundExp extends RuntimeException {
 
   public UserNotFoundExp(String arg0) {
-    super(arg0);
+    super("User not found: " + arg0);
   }
 
   public UserNotFoundExp(Throwable arg0) {

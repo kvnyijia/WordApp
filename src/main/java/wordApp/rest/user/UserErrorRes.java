@@ -1,4 +1,4 @@
-package wordApp.rest;
+package wordApp.rest.user;
 
 public class UserErrorRes {
   private int status;
