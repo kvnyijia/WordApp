@@ -26,6 +26,16 @@ public class UserExpHandler {
   }
 
   @ExceptionHandler
+  public ResponseEntity<UserErrorRes> expHandler(UserUnauthorizedExp exc) {
+    HttpStatus status = HttpStatus.UNAUTHORIZED;
+    UserErrorRes err = new UserErrorRes();
+    err.setStatus(status.value());
+    err.setMsg(exc.getMessage());
+    err.setTimeStamp(System.currentTimeMillis());
+    return new ResponseEntity<>(err, status);
+  }
+
+  @ExceptionHandler
   public ResponseEntity<UserErrorRes> expHandler(Exception exc) {
     UserErrorRes err = new UserErrorRes();
     err.setStatus(HttpStatus.BAD_REQUEST.value());

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import wordApp.entity.User;
 import wordApp.rest.user.CreateUserReq;
 import wordApp.rest.user.GetUserRes;
+import wordApp.rest.user.LoginUserReq;
 import wordApp.rest.user.UserNotFoundExp;
+import wordApp.rest.user.UserUnauthorizedExp;
 import wordApp.rest.user.UserUniqueViolationExp;
 import wordApp.service.UserService;
 
@@ -65,6 +68,25 @@ public class Controller {
       throw new UserNotFoundExp(username);
     }
     service.delete(username);
+    return true;
+  }
+
+  @PostMapping(value="/users/login", produces=MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.CREATED)
+  public Boolean loginUser(@RequestBody LoginUserReq theUser) {
+    User dbUser = service.find(theUser.getUsername());
+    if (dbUser == null) {
+      throw new UserNotFoundExp(theUser.getUsername());
+    }
+
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    String hash = dbUser.getHashed_password();
+    boolean isMatch = encoder.matches(theUser.getPassword(), hash);
+    if (!isMatch) {
+      throw new UserUnauthorizedExp("Incorrect password");
+    }
+
     return true;
   }
 }
