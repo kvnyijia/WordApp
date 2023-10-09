@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +19,13 @@ import wordApp.entity.User;
 import wordApp.rest.user.CreateUserReq;
 import wordApp.rest.user.GetUserRes;
 import wordApp.rest.user.LoginUserReq;
+import wordApp.rest.user.LoginUserRes;
 import wordApp.rest.user.UserNotFoundExp;
 import wordApp.rest.user.UserUnauthorizedExp;
 import wordApp.rest.user.UserUniqueViolationExp;
 import wordApp.service.UserService;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class Controller {
   private UserService service;
@@ -74,7 +76,7 @@ public class Controller {
   @PostMapping(value="/users/login", produces=MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)
-  public Boolean loginUser(@RequestBody LoginUserReq theUser) {
+  public LoginUserRes loginUser(@RequestBody LoginUserReq theUser) {
     User dbUser = service.find(theUser.getUsername());
     if (dbUser == null) {
       throw new UserNotFoundExp(theUser.getUsername());
@@ -87,6 +89,6 @@ public class Controller {
       throw new UserUnauthorizedExp("Incorrect password");
     }
 
-    return true;
+    return new LoginUserRes("tmp_token", new GetUserRes(dbUser.getUsername(), dbUser.getEmail()));
   }
 }
