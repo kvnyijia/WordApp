@@ -25,8 +25,8 @@ public class WordAppApplication {
 	} 
 
 	private void createUser(UserService service) {
-		User u1 = new User("kevin", "kevin@gmail.com", "0000");
-		service.save(u1);
+		// User u1 = new User("kevin", "kevin@gmail.com", "0000");
+		// service.save(u1);
 	}
 
 	@Bean

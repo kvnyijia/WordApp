@@ -1,8 +1,11 @@
 package wordApp.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,12 +21,25 @@ public class User {
   @Column(name="hashed_password")
   private String hashed_password;
 
+  @ManyToMany
+  private Set<Role> roles;
+
+  private boolean enabled;
+
   public User() {}
 
   public User(String username, String email, String hashed_password) {
     this.username = username;
     this.email = email;
     this.hashed_password = hashed_password;
+  }
+
+  public User(String username, String email, String hashed_password, Set<Role> roles, boolean enabled) {
+    this.username = username;
+    this.email = email;
+    this.hashed_password = hashed_password;
+    this.roles = roles;
+    this.enabled = enabled;
   }
 
   public String getUsername() {
@@ -50,10 +66,25 @@ public class User {
     this.hashed_password = hashed_password;
   }
 
-  @Override
-  public String toString() {
-    return "User [username=" + username + ", email=" + email + ", hashed_password=" + hashed_password + "]";
+  public Set<Role> getRoles() {
+    return roles;
   }
 
-  
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @Override
+  public String toString() {
+    return "User [username=" + username + ", email=" + email + ", hashed_password=" + hashed_password + ", roles="
+        + roles + ", enabled=" + enabled + "]";
+  } 
 }
