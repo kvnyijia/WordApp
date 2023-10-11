@@ -8,12 +8,16 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
 
 import wordApp.entity.Role;
 import wordApp.entity.User;
 
+@Repository
 public class UserDetailsImpl implements UserDetails {
   private User user;
+
+  public UserDetailsImpl() { }
 
   public UserDetailsImpl(User user) {
     this.user = user;
@@ -31,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public String getPassword() {
-    return user.getHashed_password();
+    return user.getPassword();
   }
 
   @Override

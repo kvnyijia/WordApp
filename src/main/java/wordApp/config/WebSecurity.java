@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import wordApp.filter.JWTAuthenticationFilter;
 import wordApp.filter.JWTAuthorizationFilter;
 import wordApp.service.UserService;
+import wordApp.service.UserServiceImpl;
 
 @Configuration
 @EnableMethodSecurity
@@ -39,8 +42,14 @@ public class WebSecurity {
     http.cors(Customizer.withDefaults());
     http.csrf(csrf -> csrf.disable());
 
-    // http.addFilter(new JWTAuthenticationFilter(authenticationManagerBean()));
-    // http.addFilter(new JWTAuthorizationFilter(authenticationManagerBean()));
+    http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
+    http.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+
+    // http.addFilter(new JWTAuthenticationFilter(new CustomAuthenticationManager()));
+    // http.addFilter(new JWTAuthorizationFilter(new CustomAuthenticationManager()));
+
+    // http.addFilter(new JWTAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))));
+    // http.addFilter(new JWTAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))));
 
     return http.build();
   }
@@ -49,4 +58,14 @@ public class WebSecurity {
   // public AuthenticationManager authenticationManagerBean() throws Exception {
   //   return authenticationManagerBean();
   // }
+
+  // @Bean
+  // public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+  //   return authenticationConfiguration.getAuthenticationManager();
+  // }
+  
+  @Bean
+  public AuthenticationManager authenticationManager() throws Exception {
+    return new CustomAuthenticationManager();
+  }
 }

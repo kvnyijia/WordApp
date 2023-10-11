@@ -1,5 +1,6 @@
 package wordApp.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -10,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="user_table")
-public class User {
+public class User implements Serializable {
   @Id
   @Column(name="username")
   private String username;
@@ -18,8 +19,8 @@ public class User {
   @Column(name="email")
   private String email;
 
-  @Column(name="hashed_password")
-  private String hashed_password;
+  @Column(name="password")
+  private String password;
 
   @ManyToMany
   private Set<Role> roles;
@@ -28,16 +29,16 @@ public class User {
 
   public User() {}
 
-  public User(String username, String email, String hashed_password) {
+  public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
-    this.hashed_password = hashed_password;
+    this.password = password;
   }
 
-  public User(String username, String email, String hashed_password, Set<Role> roles, boolean enabled) {
+  public User(String username, String email, String password, Set<Role> roles, boolean enabled) {
     this.username = username;
     this.email = email;
-    this.hashed_password = hashed_password;
+    this.password = password;
     this.roles = roles;
     this.enabled = enabled;
   }
@@ -58,12 +59,12 @@ public class User {
     this.email = email;
   }
 
-  public String getHashed_password() {
-    return hashed_password;
+  public String getPassword() {
+    return password;
   }
 
-  public void setHashed_password(String hashed_password) {
-    this.hashed_password = hashed_password;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Set<Role> getRoles() {
@@ -84,7 +85,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "User [username=" + username + ", email=" + email + ", hashed_password=" + hashed_password + ", roles="
+    return "User [username=" + username + ", email=" + email + ", password=" + password + ", roles="
         + roles + ", enabled=" + enabled + "]";
   } 
 }

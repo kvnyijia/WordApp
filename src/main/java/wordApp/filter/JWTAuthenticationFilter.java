@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,12 +14,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wordApp.config.SecurityConstants;
 import wordApp.entity.User;
+import wordApp.rest.user.GetUserRes;
+import wordApp.rest.user.LoginUserRes;
+import wordApp.rest.user.UserErrorRes;
+import wordApp.rest.user.UserUnauthorizedExp;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
@@ -29,15 +36,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   }
 
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
+  public Authentication attemptAuthentication(
+    HttpServletRequest req, 
+    HttpServletResponse res
+  ) throws AuthenticationException {
     try {
       User creds = new ObjectMapper()
         .readValue(req.getInputStream(), User.class);
-
+            
       return authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
           creds.getUsername(),
-          creds.getHashed_password(),
+          creds.getPassword(),
           new ArrayList<>()
         )
       );
@@ -54,13 +64,38 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     Authentication auth
   ) throws IOException {
 
+    Object principal = auth.getPrincipal();
+    String username = (String) principal;
     String token = JWT.create()
-      .withSubject(((User) auth.getPrincipal()).getUsername())
+      .withSubject(username)
       .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
       .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
 
-    String body = ((User) auth.getPrincipal()).getUsername() + " " + token;
-    res.getWriter().write(body);
+    GetUserRes theUser = new GetUserRes(username, "");
+    LoginUserRes rbody = new LoginUserRes(token, theUser);
+    String json = new Gson().toJson(rbody);
+    res.setContentType("application/json");
+    res.getWriter().write(json);
+    res.getWriter().flush();
+  }
+
+  @Override
+  protected void unsuccessfulAuthentication(
+    HttpServletRequest req, 
+    HttpServletResponse res,
+    AuthenticationException failed
+  ) throws IOException, ServletException {
+
+    int statusCode = HttpStatus.UNAUTHORIZED.value();
+    UserErrorRes rbody = new UserErrorRes(
+      statusCode, 
+      "incorrect username or password", 
+      System.currentTimeMillis()
+    );
+    String json = new Gson().toJson(rbody);
+    res.setContentType("application/json");
+    res.setStatus(statusCode);
+    res.getWriter().write(json);
     res.getWriter().flush();
   }
 }

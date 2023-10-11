@@ -73,22 +73,23 @@ public class Controller {
     return true;
   }
 
-  @PostMapping(value="/users/login", produces=MediaType.APPLICATION_JSON_VALUE)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.CREATED)
-  public LoginUserRes loginUser(@RequestBody LoginUserReq theUser) {
-    User dbUser = service.find(theUser.getUsername());
-    if (dbUser == null) {
-      throw new UserNotFoundExp(theUser.getUsername());
-    }
+  // @PostMapping(value="/users/login", produces=MediaType.APPLICATION_JSON_VALUE)
+  // @ResponseBody
+  // @ResponseStatus(HttpStatus.CREATED)
+  // public LoginUserRes loginUser(@RequestBody LoginUserReq theUser) {
+  //   User dbUser = service.find(theUser.getUsername());
+  //   if (dbUser == null) {
+  //     throw new UserNotFoundExp(theUser.getUsername());
+  //   }
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String hash = dbUser.getHashed_password();
-    boolean isMatch = encoder.matches(theUser.getPassword(), hash);
-    if (!isMatch) {
-      throw new UserUnauthorizedExp("Incorrect password");
-    }
+  //   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+  //   String hash = dbUser.getPassword();
+  //   boolean isMatch = encoder.matches(theUser.getPassword(), hash);
+  //   if (!isMatch) {
+  //     throw new UserUnauthorizedExp("Incorrect password");
+  //   }
+  //   System.out.println(">>> Match!!");
 
-    return new LoginUserRes("tmp_token", new GetUserRes(dbUser.getUsername(), dbUser.getEmail()));
-  }
+  //   return new LoginUserRes("tmp_token", new GetUserRes(dbUser.getUsername(), dbUser.getEmail()));
+  // }
 }
