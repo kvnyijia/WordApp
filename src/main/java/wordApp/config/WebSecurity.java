@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import wordApp.filter.JWTAuthenticationFilter;
 import wordApp.filter.JWTAuthorizationFilter;
@@ -21,13 +24,13 @@ import wordApp.service.UserServiceImpl;
 @Configuration
 @EnableMethodSecurity
 public class WebSecurity {
-  private UserService userService;
-  private BCryptPasswordEncoder encoder;
+  // private UserService userService;
+  // private BCryptPasswordEncoder encoder;
 
-  public WebSecurity(UserService userService, BCryptPasswordEncoder encoder) {
-    this.userService = userService;
-    this.encoder = encoder;
-  }
+  // public WebSecurity(UserService userService, BCryptPasswordEncoder encoder) {
+  //   this.userService = userService;
+  //   this.encoder = encoder;
+  // }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -67,5 +70,17 @@ public class WebSecurity {
   @Bean
   public AuthenticationManager authenticationManager() throws Exception {
     return new CustomAuthenticationManager();
+  }
+
+  /**
+   * This CORS bean is needed for /users/login
+   * @return
+   */
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+    source.registerCorsConfiguration("/**", corsConfiguration);
+    return source;
   }
 }
