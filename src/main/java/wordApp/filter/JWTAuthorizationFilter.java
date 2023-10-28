@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +12,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.google.gson.Gson;
 
 import jakarta.servlet.FilterChain;
@@ -22,9 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wordApp.config.SecurityConstants;
 import wordApp.rest.user.UserErrorRes;
-import wordApp.rest.user.UserUnauthorizedExp;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+  
   public JWTAuthorizationFilter(AuthenticationManager authManager) {
     super(authManager);
   }
