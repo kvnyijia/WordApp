@@ -31,9 +31,10 @@ public class TableDAOImpl implements TableDAO {
 
   @Override
   public List<Table> findAll_by_owner(String owner) {
-    String qlString = "select * from Table where owner = " + owner;
+    String qlString = "from Table where owner = ?1";
     TypedQuery<Table> query = em.createQuery(qlString, Table.class);
-    return query.getResultList();
+    return query.setParameter(1, owner)
+      .getResultList();
   }
 
   @Override
