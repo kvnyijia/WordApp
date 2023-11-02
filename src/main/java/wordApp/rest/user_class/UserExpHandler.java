@@ -1,4 +1,4 @@
-package wordApp.rest.user;
+package wordApp.rest.user_class;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

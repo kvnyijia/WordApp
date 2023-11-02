@@ -19,7 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wordApp.config.SecurityConstants;
-import wordApp.rest.user.UserErrorRes;
+import wordApp.rest.user_class.UserErrorRes;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
   

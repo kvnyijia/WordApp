@@ -22,10 +22,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wordApp.config.SecurityConstants;
 import wordApp.entity.User;
-import wordApp.rest.user.GetUserRes;
-import wordApp.rest.user.LoginUserRes;
-import wordApp.rest.user.UserErrorRes;
-import wordApp.rest.user.UserUnauthorizedExp;
+import wordApp.rest.user_class.GetUserRes;
+import wordApp.rest.user_class.LoginUserRes;
+import wordApp.rest.user_class.UserErrorRes;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;

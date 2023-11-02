@@ -1,16 +1,16 @@
-package wordApp.rest.user;
+package wordApp.rest.user_class;
 
-public class CreateUserReq {
+public class GetUserRes {
   private String username;
   private String email;
-  private String password;
-  public CreateUserReq(String username, String email, String password) {
+
+  public GetUserRes() { }
+
+  public GetUserRes(String username, String email) {
     this.username = username;
     this.email = email;
-    this.password = password;
   }
-  public CreateUserReq() {
-  }
+  
   public String getUsername() {
     return username;
   }
@@ -22,11 +22,5 @@ public class CreateUserReq {
   }
   public void setEmail(String email) {
     this.email = email;
-  }
-  public String getPassword() {
-    return password;
-  }
-  public void setPassword(String password) {
-    this.password = password;
   }
 }

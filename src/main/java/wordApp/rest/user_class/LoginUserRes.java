@@ -1,4 +1,4 @@
-package wordApp.rest.user;
+package wordApp.rest.user_class;
 
 public class LoginUserRes {
   private String access_token;

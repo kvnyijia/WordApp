@@ -16,22 +16,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import wordApp.entity.User;
-import wordApp.rest.user.CreateUserReq;
-import wordApp.rest.user.GetUserRes;
-import wordApp.rest.user.LoginUserReq;
-import wordApp.rest.user.LoginUserRes;
-import wordApp.rest.user.UserNotFoundExp;
-import wordApp.rest.user.UserUnauthorizedExp;
-import wordApp.rest.user.UserUniqueViolationExp;
+import wordApp.rest.user_class.CreateUserReq;
+import wordApp.rest.user_class.GetUserRes;
+import wordApp.rest.user_class.LoginUserReq;
+import wordApp.rest.user_class.LoginUserRes;
+import wordApp.rest.user_class.UserNotFoundExp;
+import wordApp.rest.user_class.UserUnauthorizedExp;
+import wordApp.rest.user_class.UserUniqueViolationExp;
 import wordApp.service.UserService;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-public class Controller {
+public class UserController {
   private UserService service;
 
   @Autowired
-  public Controller(UserService theService) {
+  public UserController(UserService theService) {
     this.service = theService;
   }
 
