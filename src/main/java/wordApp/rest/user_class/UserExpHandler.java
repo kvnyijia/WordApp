@@ -34,13 +34,4 @@ public class UserExpHandler {
     err.setTimeStamp(System.currentTimeMillis());
     return new ResponseEntity<>(err, status);
   }
-
-  @ExceptionHandler
-  public ResponseEntity<UserErrorRes> expHandler(Exception exc) {
-    UserErrorRes err = new UserErrorRes();
-    err.setStatus(HttpStatus.BAD_REQUEST.value());
-    err.setMsg(exc.getMessage());
-    err.setTimeStamp(System.currentTimeMillis());
-    return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
-  }
 }
