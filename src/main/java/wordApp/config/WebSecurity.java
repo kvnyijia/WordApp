@@ -30,7 +30,7 @@ public class WebSecurity {
     http.cors(Customizer.withDefaults());
     http.csrf(csrf -> csrf.disable());
     http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
-    http.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+    http.addFilter(new JWTAuthorizationFilter(authenticationManager(), new RestAuthenticationEntryPoint()));
     return http.build();
   }
   
