@@ -24,7 +24,7 @@ import wordApp.config.SecurityConstants;
 import wordApp.entity.User;
 import wordApp.rest.user_class.GetUserRes;
 import wordApp.rest.user_class.LoginUserRes;
-import wordApp.rest.user_class.UserErrorRes;
+import wordApp.rest.common_class.ErrorRes;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
@@ -86,7 +86,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   ) throws IOException, ServletException {
 
     int statusCode = HttpStatus.UNAUTHORIZED.value();
-    UserErrorRes rbody = new UserErrorRes(
+    ErrorRes rbody = new ErrorRes(
       statusCode, 
       "incorrect username or password", 
       System.currentTimeMillis()

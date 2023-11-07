@@ -5,17 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import wordApp.rest.common_class.ErrorRes;
+
 @ControllerAdvice
 public class TableExpHandler {
   
   @ExceptionHandler
-  public ResponseEntity<TableErrorRes> exphandler(TableNotFoundExp exp) {
-    HttpStatus status = HttpStatus.NOT_FOUND;
-    TableErrorRes res = new TableErrorRes(
-      status.value(),
-      exp.getMessage(),
-      System.currentTimeMillis()
-    );
-    return new ResponseEntity<>(res, status);
+  public ResponseEntity<ErrorRes> exphandler(TableNotFoundExp exp) {
+    return ErrorRes.create_ResponseEntity_ErrorRes(HttpStatus.NOT_FOUND, exp);
   }
 }

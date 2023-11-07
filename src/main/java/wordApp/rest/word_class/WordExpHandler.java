@@ -12,12 +12,6 @@ public class WordExpHandler {
   
   @ExceptionHandler
   public ResponseEntity<ErrorRes> exphandler(WordNotFoundExp exp) {
-    HttpStatus status = HttpStatus.NOT_FOUND;
-    ErrorRes res = new ErrorRes(
-      status.value(), 
-      exp.getMessage(), 
-      System.currentTimeMillis()
-    );
-    return new ResponseEntity<>(res, status);
+    return ErrorRes.create_ResponseEntity_ErrorRes(HttpStatus.NOT_FOUND, exp);
   }
 }

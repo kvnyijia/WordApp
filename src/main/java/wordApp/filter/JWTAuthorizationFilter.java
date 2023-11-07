@@ -19,7 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wordApp.config.SecurityConstants;
-import wordApp.rest.user_class.UserErrorRes;
+import wordApp.rest.common_class.ErrorRes;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
   
@@ -85,7 +85,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
   ) throws IOException {
 
     int statusCode = HttpStatus.UNAUTHORIZED.value();
-    UserErrorRes rbody = new UserErrorRes(
+    ErrorRes rbody = new ErrorRes(
       statusCode, 
       "Invalid token", 
       System.currentTimeMillis()

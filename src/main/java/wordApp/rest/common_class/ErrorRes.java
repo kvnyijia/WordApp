@@ -1,5 +1,8 @@
 package wordApp.rest.common_class;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 public class ErrorRes {
   
   private int status;
@@ -30,6 +33,17 @@ public class ErrorRes {
   }
   public void setTimestamp(long timestamp) {
     this.timestamp = timestamp;
+  }
+
+  public static ResponseEntity<ErrorRes> create_ResponseEntity_ErrorRes(HttpStatus status, Exception exp) {
+    return new ResponseEntity<>(
+      new ErrorRes(
+        status.value(),
+        exp.getMessage(),
+        System.currentTimeMillis()
+      ),
+      status
+    );
   }
 }
 
