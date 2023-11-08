@@ -21,16 +21,16 @@ public class WebSecurity {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((authz) -> 
-      authz
+    http
+      .cors(Customizer.withDefaults())
+      .csrf(csrf -> csrf.disable())
+      .authorizeHttpRequests((authz) -> authz
         .requestMatchers(HttpMethod.POST, "/users").permitAll()
         .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
         .anyRequest().authenticated()
-    );
-    http.cors(Customizer.withDefaults());
-    http.csrf(csrf -> csrf.disable());
-    http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
-    http.addFilter(new JWTAuthorizationFilter(authenticationManager(), new RestAuthenticationEntryPoint()));
+      )
+      .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+      .addFilter(new JWTAuthorizationFilter(authenticationManager(), new RestAuthenticationEntryPoint()));
     return http.build();
   }
   

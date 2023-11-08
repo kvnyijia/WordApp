@@ -44,6 +44,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     HttpServletResponse res,
     FilterChain chain
   ) throws IOException, ServletException {
+
+    // Explicitly states POST /users do not go thru Authorization Filter
+    if (req.getMethod().equals("POST") && req.getRequestURI().equals("/users")) {
+      chain.doFilter(req, res);
+      return;
+    }
     
     try {
       UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
