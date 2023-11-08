@@ -34,6 +34,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     super(authManager, entryPoint);
   }
 
+  /**
+   * This method intercepts the requests then invokes `getAuthentication`
+   * to checks the Authorization header.
+   */
   @Override
   protected void doFilterInternal(
     HttpServletRequest req,
@@ -41,12 +45,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     FilterChain chain
   ) throws IOException, ServletException {
     
-    String header = req.getHeader(SecurityConstants.HEADER_STRING);
-    if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-      chain.doFilter(req, res);
-      return;
-    }
-
     try {
       UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
       SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,14 +54,25 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
   }
 
-  // Reads the JWT from the Authorization header, and then uses JWT to validate the token
+  /**
+   * This method reads the token from the Authorization header (if presents), 
+   * and then uses JWT to validate the token. If the token is valid, it 
+   * returns an access token which Spring will use internally.
+   * 
+   * @param request
+   * @return
+   * @throws AuthenticationException
+   */
   private UsernamePasswordAuthenticationToken getAuthentication(
     HttpServletRequest request
   ) throws AuthenticationException {
 
     String token = request.getHeader(SecurityConstants.HEADER_STRING);
     if (token == null) {
-      return null;
+      throw new MyAuthenticationException("Authentication token not found");
+    }
+    if (!token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+      throw new MyAuthenticationException("Invalid token: unsupported authentication scheme");
     }
 
     DecodedJWT decodedJWT;
