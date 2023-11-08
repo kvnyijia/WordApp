@@ -1,4 +1,4 @@
-package wordApp.config;
+package wordApp.rest.security;
 
 public class SecurityConstants {
   public static final String SECRET = "SECRET_KEY";

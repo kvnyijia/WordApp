@@ -1,4 +1,4 @@
-package wordApp.config;
+package wordApp.rest.security;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package wordApp.filter;
+package wordApp.rest.security.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import wordApp.config.SecurityConstants;
+import wordApp.rest.security.SecurityConstants;
 
 class MyAuthenticationException extends AuthenticationException {
 

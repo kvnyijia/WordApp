@@ -1,4 +1,4 @@
-package wordApp.config;
+package wordApp.rest.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import wordApp.filter.JWTAuthenticationFilter;
-import wordApp.filter.JWTAuthorizationFilter;
+import wordApp.rest.security.filter.JWTAuthenticationFilter;
+import wordApp.rest.security.filter.JWTAuthorizationFilter;
 
 @Configuration
 @EnableMethodSecurity

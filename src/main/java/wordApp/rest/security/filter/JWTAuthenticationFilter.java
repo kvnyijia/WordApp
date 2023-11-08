@@ -1,4 +1,4 @@
-package wordApp.filter;
+package wordApp.rest.security.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import wordApp.config.SecurityConstants;
 import wordApp.entity.User;
 import wordApp.rest.user_class.GetUserRes;
 import wordApp.rest.user_class.LoginUserRes;
 import wordApp.rest.common_class.ErrorRes;
+import wordApp.rest.security.SecurityConstants;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
