@@ -22,7 +22,7 @@ public class WebSecurity {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .cors(Customizer.withDefaults())
+      .cors(Customizer.withDefaults())  // .cors(cors -> cors.configurationSource(source))
       .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests((authz) -> authz
         .requestMatchers(HttpMethod.POST, "/users").permitAll()
@@ -40,13 +40,15 @@ public class WebSecurity {
   }
 
   /**
-   * This CORS bean is needed for /users/login
+   * Integrate the `CorsWebFilter` with Spring Security by providing a `CorsConfigurationSource`
+   * ps: This CORS bean is needed for /users/login, and DELETE requests
    * @return
    */
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+    corsConfiguration.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", corsConfiguration);
     return source;
   }
