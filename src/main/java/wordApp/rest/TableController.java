@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +53,14 @@ public class TableController {
       throw new TableNotFoundExp(table_id);
     }
     return theTable;
+  }
+
+  @DeleteMapping("/tables/{table_id}")
+  public boolean deleteTable(@PathVariable int table_id) {
+    if (service.find(table_id) == null) {
+      throw new TableNotFoundExp(table_id);
+    }
+    service.delete(table_id);
+    return true;
   }
 }
