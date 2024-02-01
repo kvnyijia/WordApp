@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import wordApp.entity.Table;
 import wordApp.entity.Word;
+import wordApp.rest.word_class.CreateWordReq;
 import wordApp.rest.word_class.GetWordsRes;
 import wordApp.rest.word_class.WordNotFoundExp;
+import wordApp.service.TableService;
 import wordApp.service.WordService;
 
 @CrossOrigin(maxAge = 3600)
@@ -24,16 +27,28 @@ import wordApp.service.WordService;
 public class WordController {
   
   private WordService service;
+  private TableService tService;
 
   @Autowired
-  public WordController(WordService service) {
+  public WordController(WordService service, TableService tService) {
     this.service = service;
+    this.tService = tService;
   }
 
   @PostMapping(value = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)
-  public Boolean addWord(@RequestBody Word w) {
+  public Boolean addWord(@RequestBody CreateWordReq req) {
+    Table theTable = tService.find(req.getTable_id());
+    if (theTable == null) {
+      return false;
+    }
+    Word w = new Word(
+      theTable,
+      req.getTerm(),
+      req.getMeaning(),
+      req.getPicture_url()
+    );
     service.save(w);
     return true;
   }

@@ -1,22 +1,30 @@
 package wordApp.entity;
 
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-@Table
-public class Word {
+@jakarta.persistence.Table
+public class Word implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
   private int id;
 
-  @Column(name="table_id")
-  private int table_id;
+  @JsonIgnore 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name="table_id")
+  private Table table;
   
   @Column(name="term")
   private String term;
@@ -29,8 +37,8 @@ public class Word {
 
   public Word() { }
 
-  public Word(int table_id, String term, String meaning, String picture_url) {
-    this.table_id = table_id;
+  public Word(Table table, String term, String meaning, String picture_url) {
+    this.table = table;
     this.term = term;
     this.meaning = meaning;
     this.picture_url = picture_url;
@@ -42,14 +50,6 @@ public class Word {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public int getTable_id() {
-    return table_id;
-  }
-
-  public void setTable_id(int table_id) {
-    this.table_id = table_id;
   }
 
   public String getTerm() {
@@ -76,9 +76,17 @@ public class Word {
     this.picture_url = picture_url;
   }
 
+  public Table getTable() {
+    return table;
+  }
+
+  public void setTable(Table table) {
+    this.table = table;
+  }
+
   @Override
   public String toString() {
-    return "Word [id=" + id + ", table_id=" + table_id + ", term=" + term + ", meaning=" + meaning + ", picture_url="
-        + picture_url + "]";
+    // TODO Auto-generated method stub
+    return super.toString();
   }
 }

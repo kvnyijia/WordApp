@@ -31,7 +31,7 @@ public class WordDAOImpl implements WordDAO {
 
   @Override
   public List<Word> findAll_by_table(int table_id) {
-    String qlString = "from Word where table_id = ?1";
+    String qlString = "from Word where table.id = ?1";
     TypedQuery<Word> query = em.createQuery(qlString, Word.class);
     return query.setParameter(1, table_id)
       .getResultList();
