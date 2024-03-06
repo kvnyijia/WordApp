@@ -21,8 +21,12 @@ import wordApp.service.UserService;
 @Component
 public class CustomAuthenticationManager implements AuthenticationManager {
 
-  @Autowired
   private UserService service;
+
+  @Autowired
+  public void setService(UserService service) {
+    this.service = service;
+  }
 
   @Bean
   protected PasswordEncoder passwordEncoder() {
