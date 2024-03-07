@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import wordApp.dao.TableDAO;
 import wordApp.entity.Table;
+import wordApp.rest.common_class.RecordInt;
 
 @Service
 public class TableServiceImpl implements TableService {
@@ -45,5 +46,10 @@ public class TableServiceImpl implements TableService {
   @Override
   public void delete(int table_id) {
     dao.delete(table_id);
+  }
+
+  @Override
+  public List<RecordInt> get_leaderboard() {
+    return dao.get_leaderboard();
   }
 }
